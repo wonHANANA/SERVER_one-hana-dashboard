@@ -21,6 +21,7 @@ public enum BaseResponseStatus {
     /**
      * 400번대 에러 : 클라이언트의 잘못된 요청으로 인한 에러들
      */
+    UNIT_TEST_ENDPOINT_EMPTY(false, "500-00-01", "end-point는 반드시 입력되어야 합니다."),
 
     /**
      * 500번대 에러 : 서버 에러 등 서버 프로그래밍 잘못으로 인한 에러들
