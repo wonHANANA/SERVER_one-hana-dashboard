@@ -14,6 +14,7 @@ public class UnitTestRequestJson {
     private String binding;
     private List<TestCode> testCodes;
 
+    @Getter
     public static class TestCode {
         private String test;
         private String method;
