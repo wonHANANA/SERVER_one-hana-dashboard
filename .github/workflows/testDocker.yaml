@@ -20,6 +20,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: make build file
+        run: ./gradlew clean build
       - name: docker image build
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:test .
       - name: docker image push
