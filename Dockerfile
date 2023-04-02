@@ -1,5 +1,9 @@
+FROM amazoncorretto:17 AS build
+WORKDIR /app
+COPY . .
+RUN ./gradlew clean build --no-daemon
+
 FROM amazoncorretto:17
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
-EXPOSE 8080
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
