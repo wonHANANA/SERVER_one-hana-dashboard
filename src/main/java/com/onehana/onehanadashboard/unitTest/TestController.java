@@ -3,6 +3,7 @@ package com.onehana.onehanadashboard.unitTest;
 import com.onehana.onehanadashboard.config.BaseException;
 import com.onehana.onehanadashboard.unitTest.model.*;
 import com.onehana.onehanadashboard.config.BaseResponse;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import static com.onehana.onehanadashboard.config.BaseResponseStatus.*;
@@ -31,7 +32,7 @@ public class TestController {
 
     @ResponseBody
     @PostMapping("unit")
-    public BaseResponse<String> runUnitTest(@RequestBody UnitTestRequestJson request){
+    public BaseResponse<UnitTestResponseJson> runUnitTest(@RequestBody UnitTestRequestJson request){
         if(request.getEndPoint() == null){return new BaseResponse<>(TEST_ENDPOINT_EMPTY);}
         if(request.getBinding() == null){return new BaseResponse<>(TEST_BINDING_EMPTY);}
         if((request.getTestCodes() instanceof ArrayList<UnitTestRequestJson.TestCode>) == false){return new BaseResponse<>(TEST_TESTCODE_IS_NOT_OBJECT);}
@@ -44,11 +45,14 @@ public class TestController {
             if(testCode.getExpect().get("where") == null){return new BaseResponse<>(TEST_INNERTEST_WHERE_EMPTY);}
             if(testCode.getExpect().get("toBe") == null){return new BaseResponse<>(TEST_INNERTEST_TOBE_EMPTY);};
         }
+        try {
+            UnitTestResponseJson unitTestResponseJson = TestService.runUnitTest(request);
 
-//        UnitTestResponseJson unitTestResponseJson = TestService.runUnitTest(request);
-
-        return new BaseResponse<>("yes");
-
+            return new BaseResponse<>(unitTestResponseJson);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new BaseResponse<>(PARSE_EXCEPTION_ERROR);
+        }
 
     }
 

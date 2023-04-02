@@ -12,14 +12,13 @@ public class UnitTestResponseJson {
     private String binding;
     private boolean allSuccess;
     private List<responseTest> localResult;
+
+    @Getter
+    @Setter
+    public static class responseTest{
+        private String testName;
+        private boolean result;
+        private String message;
+    }
 }
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-class responseTest{
-    private String testName;
-    private boolean isSuccess;
-    private String message;
-}

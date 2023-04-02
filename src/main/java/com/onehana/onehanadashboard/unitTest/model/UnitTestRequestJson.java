@@ -19,7 +19,7 @@ public class UnitTestRequestJson {
         private String test;
         private String method;
         private String route;
-        private Map<String, Object> body;
-        private Map<String, Object> expect;
+        private Map<String, String> body;
+        private Map<String, String> expect;
     }
 }

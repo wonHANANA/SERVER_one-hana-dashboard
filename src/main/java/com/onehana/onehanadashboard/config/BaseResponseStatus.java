@@ -36,7 +36,8 @@ public enum BaseResponseStatus {
     /**
      * 500번대 에러 : 서버 에러 등 서버 프로그래밍 잘못으로 인한 에러들
      */
-    DATABASE_CONNECTION_ERROR(false, "500-00-01", "DB관련 에러 발생.");
+    DATABASE_CONNECTION_ERROR(false, "500-00-01", "DB관련 에러 발생."),
+    PARSE_EXCEPTION_ERROR(false, "500-01-01", "파싱 작업 중 에러 발생");
 
     private final boolean isSuccess;
     private final String code;
