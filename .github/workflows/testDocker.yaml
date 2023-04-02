@@ -18,8 +18,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: List files in the repository
-      run: |
-        ls ${{ github.workspace }}
+        run: |
+          ls ${{ github.workspace }}
       - name: docker image build
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:test .
       - name: docker image push
