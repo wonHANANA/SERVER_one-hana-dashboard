@@ -7,6 +7,7 @@ build/
 
 # yaml 파일
 *.yml
+*.yaml
 
 ### STS ###
 .apt_generated
