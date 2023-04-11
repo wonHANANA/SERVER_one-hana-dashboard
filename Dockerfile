@@ -1,7 +1,8 @@
 FROM amazoncorretto:17 AS build
 WORKDIR /app
 COPY . .
-RUN ./gradlew clean build --no-daemon
+RUN ./gradlew clean build
+ #./gradlew clean build --no-daemon
 
 FROM amazoncorretto:17
 WORKDIR /app
