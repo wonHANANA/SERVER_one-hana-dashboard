@@ -18,6 +18,6 @@ public class News {
     @Column(length = 2000)
     private String title;
     private String date;
-    @Column(length = 5000)
+    @Column(length = 10000)
     private String text;
 }

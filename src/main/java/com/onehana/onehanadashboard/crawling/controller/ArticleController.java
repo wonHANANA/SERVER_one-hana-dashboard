@@ -12,9 +12,11 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    @GetMapping("/")
-    public void start(@RequestParam String keyword,
+    @GetMapping("/crawling/naver")
+    public String start(@RequestParam String keyword,
                       @RequestParam String period) {
         articleService.process(keyword, period);
+
+        return "크롤링 시작";
     }
 }
