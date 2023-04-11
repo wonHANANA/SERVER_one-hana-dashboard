@@ -57,7 +57,7 @@ public class ArticleService {
 
         driver.findElement(By.xpath("//*[@id=\"contentarea_left\"]/form/div/div/div/input[2]")).click();
 
-        for (int i = 10; i <= 10; i++) {
+        for (int i = 1; i <= 10; i++) {
             for (int j = 1; j < 41; j++) {
                 try {
                     driver.findElement(By.xpath(String.format("//*[@id=\"contentarea_left\"]/div[2]/dl/dd[%d]/a", j))).click();
