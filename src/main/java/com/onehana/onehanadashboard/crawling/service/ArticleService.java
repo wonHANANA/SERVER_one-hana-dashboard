@@ -8,6 +8,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
@@ -43,6 +46,10 @@ public class ArticleService {
 //        String month = "12";
 //        String week = "13";
 
+        String title;
+        String date;
+        String text;
+
         String url = "https://naver.com";
         driver.get(url);
 
@@ -58,16 +65,18 @@ public class ArticleService {
         driver.findElement(By.xpath("//*[@id=\"contentarea_left\"]/form/div/div/div/input[2]")).click();
 
         for (int i = 1; i <= 10; i++) {
+            List<News> allNews = new ArrayList<>();
             for (int j = 1; j < 41; j++) {
                 try {
                     driver.findElement(By.xpath(String.format("//*[@id=\"contentarea_left\"]/div[2]/dl/dd[%d]/a", j))).click();
+
+                    title = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > h3")).getText();
+                    date = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > div > span")).getText();
+                    text = driver.findElement(By.cssSelector("#content.articleCont")).getText();
+
                 } catch (NoSuchElementException | UnhandledAlertException e) {
                     continue;
                 }
-
-                String title = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > h3")).getText();
-                String date = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > div > span")).getText();
-                String text = driver.findElement(By.cssSelector("#content.articleCont")).getText();
 
                 text = text
                         .replaceAll("(\r\n|\r|\n|\n\r)", "")
@@ -87,10 +96,10 @@ public class ArticleService {
                         .text(text)
                         .build();
 
-                newsRepository.save(news);
-
+                allNews.add(news);
                 driver.navigate().back();
             }
+            newsRepository.saveAll(allNews);
 
             i += 1;
             try {
@@ -102,17 +111,19 @@ public class ArticleService {
 
         while (true) {
             for (int i = 3; i <= 12; i++) {
+                List<News> allNews = new ArrayList<>();
+
                 for (int j = 1; j < 41; j++) {
                     try {
                         driver.findElement(By.xpath(String.format("//*[@id=\"contentarea_left\"]/div[2]/dl/dd[%d]/a", j))).click();
+
+                        title = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > h3")).getText();
+                        date = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > div > span")).getText();
+                        text = driver.findElement(By.cssSelector("#content.articleCont")).getText();
+
                     } catch (NoSuchElementException | UnhandledAlertException e) {
                         continue;
                     }
-
-                    String title = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > h3")).getText();
-                    String date = driver.findElement(By.cssSelector("#contentarea_left > div.boardView.size4 > div.article_header > div.article_info > div > span")).getText();
-                    String text = driver.findElement(By.cssSelector("#content.articleCont")).getText();
-
                     text = text
                             .replaceAll("(\r\n|\r|\n|\n\r)", "")
                             .replace(" ", "")
@@ -131,10 +142,11 @@ public class ArticleService {
                             .text(text)
                             .build();
 
-                    newsRepository.save(news);
-
+                    allNews.add(news);
                     driver.navigate().back();
                 }
+
+                newsRepository.saveAll(allNews);
 
                 i += 1;
                 try {
@@ -144,5 +156,17 @@ public class ArticleService {
                 }
             }
         }
+    }
+
+    public List<News> getNewsByKeyword(String keyword) {
+        return newsRepository.findByTextContains(keyword);
+    }
+
+    public List<News> getNewsByKeywords(String keyword1, String keyword2) {
+        return newsRepository.findByTextContains(keyword1, keyword2);
+    }
+
+    public int deleteDuplicateNews() {
+        return newsRepository.deleteDuplicateNews();
     }
 }
