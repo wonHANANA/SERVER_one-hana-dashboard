@@ -166,7 +166,7 @@ public class ArticleService {
         return newsRepository.findByTextContains(keyword1, keyword2);
     }
 
-    public int deleteDuplicateNews() {
-        return newsRepository.deleteDuplicateNews();
-    }
+//    public int deleteDuplicateNews() {
+//        return newsRepository.deleteDuplicateNews();
+//    }
 }
