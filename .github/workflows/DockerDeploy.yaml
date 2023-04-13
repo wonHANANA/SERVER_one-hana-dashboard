@@ -12,6 +12,7 @@ jobs:
       - run: touch ./src/main/resources/application.yml
       - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
       - run: cat ./src/main/resources/application.yml
+      - run: ls ./src/main/resources
           
       -
         name: Login to Docker Hub
@@ -44,5 +45,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
             sudo docker stop ${{ secrets.DOCKER_IMAGE_NAME }}-run:latest
             sudo docker rm ${{ secrets.DOCKER_IMAGE_NAME }}-run:latest
-            sudo docker run -p 8080:8080 --name ${{ secrets.DOCKER_IMAGE_NAME }}-run ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:test
+            sudo docker run -p 8080:8080 --name ${{ secrets.DOCKER_IMAGE_NAME }}-run ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
  
