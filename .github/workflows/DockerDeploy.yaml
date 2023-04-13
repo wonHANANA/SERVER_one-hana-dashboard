@@ -11,6 +11,7 @@ jobs:
       - run: ls
       - run: touch ./src/main/resources/application.yml
       - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
+      - run: cat ./src/main/resources/application.yml
           
       -
         name: Login to Docker Hub
