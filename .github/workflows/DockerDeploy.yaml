@@ -5,15 +5,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      APP_CONFIG: ${{ secrets.APP_CONFIG }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - run: ls
-      - run: touch ./src/main/resources/application.properties
-      - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
-      - run: cat ./src/main/resources/application.properties
+      - run: echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.yml
+      - run: cat ./src/main/resources/application.yml
       - run: ls ./src/main/resources
           
       -
@@ -30,7 +27,6 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-          build-args: APP_CONFIG=$APP_CONFIG
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
