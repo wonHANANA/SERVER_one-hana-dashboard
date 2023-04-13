@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleService {
+public class NewsService {
 
     private final NewsRepository newsRepository;
 
@@ -165,8 +165,4 @@ public class ArticleService {
     public List<News> getNewsByKeywords(String keyword1, String keyword2) {
         return newsRepository.findByTextContains(keyword1, keyword2);
     }
-
-//    public int deleteDuplicateNews() {
-//        return newsRepository.deleteDuplicateNews();
-//    }
 }

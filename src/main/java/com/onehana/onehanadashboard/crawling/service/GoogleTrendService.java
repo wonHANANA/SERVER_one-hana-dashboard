@@ -13,7 +13,7 @@ public class GoogleTrendService {
 
     private final GoogleTrendRepository googleTrendRepository;
 
-    public void saveGoogleTrend(List<GoogleTrend> googleTrend) {
-        googleTrendRepository.saveAll(googleTrend);
+    public List<GoogleTrend> saveGoogleTrend(List<GoogleTrend> googleTrend) {
+        return googleTrendRepository.saveAll(googleTrend);
     }
 }
