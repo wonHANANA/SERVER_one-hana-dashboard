@@ -43,7 +43,7 @@ jobs:
           port: ${{ secrets.AWS_SSH_PORT }}
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-            sudo docker stop ${{ secrets.DOCKER_IMAGE_NAME }}-run:latest
-            sudo docker rm ${{ secrets.DOCKER_IMAGE_NAME }}-run:latest
-            sudo docker run -p 8080:8080 --name ${{ secrets.DOCKER_IMAGE_NAME }}-run ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            sudo docker stop ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            sudo docker rmi -f ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            sudo docker run -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
  
