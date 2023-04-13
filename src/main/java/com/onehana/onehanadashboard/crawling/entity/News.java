@@ -2,6 +2,7 @@ package com.onehana.onehanadashboard.crawling.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -15,9 +16,14 @@ public class News {
     private Long id;
 
     private String keyword;
+    private String date;
+
     @Column(length = 2000)
     private String title;
-    private String date;
-    @Column(length = 10000)
+
+    @Column(length = 20000)
     private String text;
+
+    @ColumnDefault("1")
+    private Boolean isDuplicated;
 }

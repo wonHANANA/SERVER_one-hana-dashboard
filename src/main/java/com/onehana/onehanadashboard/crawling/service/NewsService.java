@@ -40,12 +40,6 @@ public class NewsService {
     }
 
     public void naver(String keyword, String period) throws InterruptedException {
-//        String keyword = "ESG";
-
-//        String allTime = "11";
-//        String month = "12";
-//        String week = "13";
-
         String title;
         String date;
         String text;
@@ -79,13 +73,9 @@ public class NewsService {
                 }
 
                 text = text
-                        .replaceAll("(\r\n|\r|\n|\n\r)", "")
-                        .replace(" ", "")
                         .replace("'", "")
                         .replace("\"", "")
-                        .replace(".", "")
                         .replace(",", "")
-                        .replace("·", "")
                         .replace("’", "")
                         .replace("”", "");
 
@@ -125,13 +115,9 @@ public class NewsService {
                         continue;
                     }
                     text = text
-                            .replaceAll("(\r\n|\r|\n|\n\r)", "")
-                            .replace(" ", "")
                             .replace("'", "")
                             .replace("\"", "")
-                            .replace(".", "")
                             .replace(",", "")
-                            .replace("·", "")
                             .replace("’", "")
                             .replace("”", "");
 

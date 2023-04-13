@@ -4,12 +4,8 @@ import com.onehana.onehanadashboard.config.BaseResponse;
 import com.onehana.onehanadashboard.crawling.entity.GoogleTrend;
 import com.onehana.onehanadashboard.crawling.service.GoogleTrendService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +23,5 @@ public class GoogleTrendController {
 
         return new BaseResponse<>(savedTrends);
     }
+    
 }
