@@ -17,7 +17,7 @@ public class NewsController {
     private final NewsService newsService;
 
     @Operation(summary = "네이버 크롤링", description = "전체기간: 11, 한달: 12, 일주일: 13")
-    @GetMapping("/naver")   // 전체기간: 11, 한달: 12, 일주일: 13
+    @PostMapping("/naver")
     public String start(@RequestParam String keyword,
                         @RequestParam String period) {
         newsService.process(keyword, period);

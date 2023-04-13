@@ -72,18 +72,14 @@ public class NewsService {
                     continue;
                 }
 
-                text = text
-                        .replace("'", "")
-                        .replace("\"", "")
-                        .replace(",", "")
-                        .replace("’", "")
-                        .replace("”", "");
+                text = text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9. \\r\\n|\\r|\\n|\\n\\r]", "");
 
                 News news = News.builder()
                         .keyword(keyword)
                         .title(title)
                         .date(date)
                         .text(text)
+                        .isDuplicated(Boolean.TRUE)
                         .build();
 
                 allNews.add(news);
@@ -114,18 +110,14 @@ public class NewsService {
                     } catch (NoSuchElementException | UnhandledAlertException e) {
                         continue;
                     }
-                    text = text
-                            .replace("'", "")
-                            .replace("\"", "")
-                            .replace(",", "")
-                            .replace("’", "")
-                            .replace("”", "");
+                    text = text.replaceAll("[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9. \\r\\n|\\r|\\n|\\n\\r]", "");
 
                     News news = News.builder()
                             .keyword(keyword)
                             .title(title)
                             .date(date)
                             .text(text)
+                            .isDuplicated(Boolean.TRUE)
                             .build();
 
                     allNews.add(news);
