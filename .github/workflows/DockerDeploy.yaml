@@ -9,8 +9,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - run: ls
-      - run: echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.yml
-      - run: cat ./src/main/resources/application.yml
+      - run: echo "${{ secrets.APPLICATION }}" >> ./src/main/resources/application.properties
+      - run: cat ./src/main/resources/application.properties
       - run: ls ./src/main/resources
           
       -
@@ -19,8 +19,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Check out repository code
-        uses: actions/checkout@v2
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
