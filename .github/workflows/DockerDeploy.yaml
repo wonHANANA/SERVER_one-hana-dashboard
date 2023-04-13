@@ -5,6 +5,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      APP_CONFIG: ${{ secrets.APP_CONFIG }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,6 +30,7 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+          build-args: APP_CONFIG=$APP_CONFIG
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
