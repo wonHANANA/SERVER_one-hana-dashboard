@@ -1,5 +1,6 @@
 package com.onehana.onehanadashboard.crawling.service;
 
+import com.onehana.onehanadashboard.crawling.entity.GoogleKeywordTrend;
 import com.onehana.onehanadashboard.crawling.entity.News;
 import com.onehana.onehanadashboard.crawling.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
@@ -166,3 +167,4 @@ public class NewsService {
         return newsRepository.findByTextContains(keyword1, keyword2);
     }
 }
+
