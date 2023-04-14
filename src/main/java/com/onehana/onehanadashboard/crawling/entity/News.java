@@ -2,7 +2,7 @@ package com.onehana.onehanadashboard.crawling.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,8 +15,8 @@ public class News {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String keyword;
-    private String date;
+    private String searchKeyword;
+    private LocalDateTime date;
 
     @Column(length = 2000)
     private String title;

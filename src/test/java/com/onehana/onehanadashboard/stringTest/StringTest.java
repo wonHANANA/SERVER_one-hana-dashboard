@@ -1,6 +1,5 @@
 package com.onehana.onehanadashboard.stringTest;
 
-import com.onehana.onehanadashboard.crawling.entity.News;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -67,8 +66,7 @@ public class StringTest {
     void keywordTest() {
         String text = "esg. 그것은 무엇인가 esg는 최고인가. 오늘은 어쩌고 저쩌고 그랬고 저랬고. 짜파게티는 맛있고 저랬고 파김치는 esg 화이팅.";
         String keyword = "esg";
-        int contextSize = 20;
-        List<String> result = getSentencesContainingKeyword(text, keyword, contextSize);
+        List<String> result = getSentencesContainingKeyword(text, keyword);
         System.out.println(result);
     }
 
@@ -78,38 +76,43 @@ public class StringTest {
         String text = "esg. 그것은 무엇인가 esg는 최고인가. 오늘은 어쩌고 저쩌고 그랬고 저랬고. 짜파게티는 맛있고 저랬고 파김치는 esg 화이팅.";
         String keyword = "esg";
 
-        List<String> contexts = extractKeywordContext(text, keyword);
+        List<String> contexts = extractKeywordContext(text, keyword, 5);
         for (String context : contexts) {
             System.out.println(context);
         }
+
+        // 1. 키워드가 포함된 문장을 DB에서 가져온다
+        // 2. List에 모든 문장을 담아온다
+        // 3. 문장 마다 돌리면서 extractKeywordContext를 작동한다
+        // 4. 나온 결과물을 DB, sentence_with_keyword 테이블에 저장한다
     }
 
-    public static List<String> getSentencesContainingKeyword(String text, String keyword, int contextSize) {
+    public static List<String> getSentencesContainingKeyword(String text, String keyword) {
         List<String> result = new ArrayList<>();
         String[] sentences = text.split("[.]"); // 문장 단위로 분리
 
         for (String sentence : sentences) {
             if (sentence.contains(keyword)) { // 키워드를 포함하는 문장인 경우
-                int startIndex = Math.max(0, sentence.indexOf(keyword) - contextSize); // 키워드 시작 인덱스 이전부터 contextSize만큼 문자열을 추출
-                int endIndex = Math.min(sentence.length(), sentence.indexOf(keyword) + keyword.length() + contextSize); // 키워드 끝 인덱스 이후부터 contextSize만큼 문자열을 추출
-                result.add(sentence.substring(startIndex, endIndex));
+                result.add(sentence);
             }
         }
         return result;
     }
 
-    public static List<String> extractKeywordContext(String text, String keyword) {
+    public static List<String> extractKeywordContext(String text, String keyword, int length) {
         int keywordLen = keyword.length();
         List<Integer> indices = new ArrayList<>();
         int index = text.indexOf(keyword);
+
         while (index >= 0) {
             indices.add(index);
             index = text.indexOf(keyword, index + keywordLen);
         }
+
         List<String> result = new ArrayList<>();
         for (int i : indices) {
-            int start = Math.max(0, i - 20);
-            int end = Math.min(text.length(), i + keywordLen + 20);
+            int start = Math.max(0, i - length);
+            int end = Math.min(text.length(), i + keywordLen + length);
             String context = text.substring(start, end);
             result.add(context);
         }
