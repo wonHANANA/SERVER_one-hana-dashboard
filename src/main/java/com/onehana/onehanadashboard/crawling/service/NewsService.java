@@ -78,7 +78,7 @@ public class NewsService {
 
             driver.findElement(By.xpath("//*[@id=\"contentarea_left\"]/form/div/div/div/input[2]")).click();
 
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 11; i++) {
                 if (i == 3) i++;    // 페이지 2번으로 갈때부터 이전 탭이 생겨서 번호가 한칸씩 늘어난다
 
                 try {
@@ -114,8 +114,6 @@ public class NewsService {
                 }
                 newsRepository.saveAll(allNews);
             }
-            // 첫페이지 리스트 1 ~ 10 후에 다음 버튼
-            driver.findElement(By.xpath("//*[@id=\"contentarea_left\"]/table/tbody/tr/td[12]/a")).click();
 
             // 첫 페이지 이후
             boolean hasPage = true;
