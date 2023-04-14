@@ -40,7 +40,8 @@ jobs:
           port: ${{ secrets.AWS_SSH_PORT }}
           script: |
             sudo docker stop latest_run
+            sudo docker rm -f latest_run
             sudo docker rmi -f $(sudo docker images | grep '${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}')
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
-            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest --name latest_run
+            sudo docker run -d -p 8080:8080 --name latest_run ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest 
  
