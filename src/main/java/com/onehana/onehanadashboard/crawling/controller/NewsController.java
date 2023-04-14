@@ -16,11 +16,12 @@ public class NewsController {
 
     private final NewsService newsService;
 
-    @Operation(summary = "네이버 크롤링", description = "전체기간: 11, 한달: 12, 일주일: 13")
+    @Operation(summary = "네이버 크롤링", description = "날짜 입력형식 20230101")
     @PostMapping("/naver")
     public String start(@RequestParam String keyword,
-                        @RequestParam String period) {
-        newsService.process(keyword, period);
+                        @RequestParam String startDate,
+                        @RequestParam String endDate) {
+        newsService.process(keyword, startDate, endDate);
         return "크롤링 시작";
     }
 

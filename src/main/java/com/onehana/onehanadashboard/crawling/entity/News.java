@@ -24,6 +24,10 @@ public class News {
     @Column(length = 20000)
     private String text;
 
-    @ColumnDefault("1")
     private Boolean isDuplicated;
+
+    @PrePersist
+    public void prePersist() {
+        this.isDuplicated = this.isDuplicated == null ? Boolean.TRUE : this.isDuplicated;
+    }
 }
