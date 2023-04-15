@@ -41,7 +41,9 @@ public class GoogleTrendService {
         if(os.contains("mac")){
             System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forMac/chromedriver_mac_arm64/chromedriver");
         }
-
+        if(os.contains("ubuntu")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forUbuntu/chromedriver");
+        }
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("download.default_directory=/Users/joonhwi/Desktop/KAU/5-1/wonHana/one-hana-dashboard/src/main/java/com/onehana/onehanadashboard/crawling/downloads/");
