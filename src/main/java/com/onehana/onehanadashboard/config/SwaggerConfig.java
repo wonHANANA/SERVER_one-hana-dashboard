@@ -35,4 +35,14 @@ public class SwaggerConfig {
                 .pathsToMatch(paths)
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi keyword() {
+        String[] paths = {"/keyword/**"};
+
+        return GroupedOpenApi.builder()
+                .group("키워드 정보")
+                .pathsToMatch(paths)
+                .build();
+    }
 }
