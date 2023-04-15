@@ -1,6 +1,7 @@
 package com.onehana.onehanadashboard.crawling.controller;
 
 import com.onehana.onehanadashboard.config.BaseResponse;
+import com.onehana.onehanadashboard.crawling.entity.GoogleKeywordTrend;
 import com.onehana.onehanadashboard.crawling.entity.GoogleTrend;
 import com.onehana.onehanadashboard.crawling.service.GoogleTrendService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,5 +24,14 @@ public class GoogleTrendController {
 
         return new BaseResponse<>(savedTrends);
     }
-    
+
+    @Operation(summary = "[키워드 1개] 5년간 검색 추이 반환", description = "하나의 키워드를 검색할 시 5년간 추이 반환")
+    @GetMapping("/trend/data")
+//    public BaseResponse<List<GoogleKeywordTrend>> oneKeywordFastFiveGoogleTrend(@RequestParam String keyword) {
+    public String oneKeywordFastFiveGoogleTrend(@RequestParam String keyword) {
+        List<GoogleKeywordTrend> googleKeywordTrendList = null;
+        googleTrendService.process(keyword);
+
+        return "Working...";
+    }
 }

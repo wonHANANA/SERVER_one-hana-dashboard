@@ -9,6 +9,9 @@ build/
 *.yml
 *.yaml
 
+# properties
+*.properties
+
 ### STS ###
 .apt_generated
 .classpath
