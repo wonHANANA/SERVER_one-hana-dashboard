@@ -14,7 +14,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,11 +35,22 @@ public class GoogleTrendService {
     private WebDriver driver;
     private WebElement web;
 
-    public void process(String keyword) {
+    public void process(String keyword) throws Exception{
         String os = System.getProperty("os.name").toLowerCase();
         String currentDir = new File("").getAbsolutePath();
         System.out.println("OS is: " + os);
         System.out.println("current DIR: " + currentDir);
+
+        ProcessBuilder builder = new ProcessBuilder("ls");
+        builder.redirectErrorStream(true);
+        Process process = builder.start();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        reader.close();
         if(os.contains("mac")){
             System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forMac/chromedriver_mac_arm64/chromedriver");
         }
