@@ -55,7 +55,7 @@ public class GoogleTrendService {
             System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forMac/chromedriver_mac_arm64/chromedriver");
         }
         if(os.contains("linux")){
-            System.setProperty("webdriver.chrome.driver", currentDir + "/home/ubuntu/chromedriver");
+            System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver");
         }
 
         ChromeOptions options = new ChromeOptions();
