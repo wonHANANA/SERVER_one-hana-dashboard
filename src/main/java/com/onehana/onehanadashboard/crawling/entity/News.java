@@ -2,6 +2,7 @@ package com.onehana.onehanadashboard.crawling.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -14,10 +15,19 @@ public class News {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String keyword;
+    private String searchKeyword;
+    private LocalDateTime date;
+
     @Column(length = 2000)
     private String title;
-    private String date;
-    @Column(length = 10000)
+
+    @Column(length = 20000)
     private String text;
+
+    private Boolean isDuplicated;
+
+    @PrePersist
+    public void prePersist() {
+        this.isDuplicated = this.isDuplicated == null ? Boolean.TRUE : this.isDuplicated;
+    }
 }
