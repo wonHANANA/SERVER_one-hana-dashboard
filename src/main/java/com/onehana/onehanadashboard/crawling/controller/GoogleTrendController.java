@@ -30,7 +30,11 @@ public class GoogleTrendController {
 //    public BaseResponse<List<GoogleKeywordTrend>> oneKeywordFastFiveGoogleTrend(@RequestParam String keyword) {
     public String oneKeywordFastFiveGoogleTrend(@RequestParam String keyword) {
         List<GoogleKeywordTrend> googleKeywordTrendList = null;
-        googleTrendService.process(keyword);
+        try {
+            googleTrendService.process(keyword);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return "Working...";
     }
