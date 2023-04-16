@@ -21,10 +21,10 @@ public class News {
     @Column(length = 2000)
     private String title;
 
+    private Boolean isDuplicated;
+
     @Column(length = 20000)
     private String text;
-
-    private Boolean isDuplicated;
 
     @PrePersist
     public void prePersist() {
