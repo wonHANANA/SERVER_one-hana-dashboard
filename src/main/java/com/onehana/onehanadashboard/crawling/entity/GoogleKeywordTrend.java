@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-
 public class GoogleKeywordTrend {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private LocalDateTime date;
     private int searched;
 }

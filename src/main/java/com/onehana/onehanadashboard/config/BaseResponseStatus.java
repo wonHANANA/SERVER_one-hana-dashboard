@@ -32,18 +32,24 @@ public enum BaseResponseStatus {
     TEST_INNERTEST_TOBE_EMPTY(false, "400-02-09", "testCodes 안에 있는 expect 안에 있는 toBe를 입력해주세요. 예) \"toBe\": 200"),
     TEST_INNERTEST_METHOD_EMPTY(false, "400-02-10", "testCodes 안에 있는 method를 입력해주세요. 예) \"method\": \"post\""),
 
+    EMPTY_VALUE(false, "400-02-11", "빈 문자열을 입력하셨습니다."),
+    INVALID_DATE_TYPE(false, "400-02-12", "잘못된 날짜 입력 형식입니다. yyyyMMdd (20230101) 형식으로 입력해주세요."),
+    INVALID_VALUE_TYPE(false, "400-02-13", "잘못된 자료형을 입력했습니다."),
+    INVALID_JSON_REQUEST(false, "400-02-14", "JSON에 null값이나 잘못된 형식이 포함되어 있습니다."),
 
     /**
      * 500번대 에러 : 서버 에러 등 서버 프로그래밍 잘못으로 인한 에러들
      */
     DATABASE_CONNECTION_ERROR(false, "500-00-01", "DB관련 에러 발생."),
-    PARSE_EXCEPTION_ERROR(false, "500-01-01", "파싱 작업 중 에러 발생");
+    PARSE_EXCEPTION_ERROR(false, "500-01-01", "파싱 작업 중 에러 발생"),
+
+    UNKNOWN_SERVER_ERROR(false, "500-00-44", "아직 처리 되지 않은 서버 오류입니다.");
 
     private final boolean isSuccess;
     private final String code;
     private final String message;
 
-    private BaseResponseStatus(boolean isSuccess, String code, String message) { //BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
+    BaseResponseStatus(boolean isSuccess, String code, String message) { //BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
         this.isSuccess = isSuccess;
         this.code = code;
         this.message = message;
