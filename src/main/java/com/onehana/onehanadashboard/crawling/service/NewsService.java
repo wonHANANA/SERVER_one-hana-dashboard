@@ -36,6 +36,9 @@ public class NewsService {
         if(os.contains("mac")){
             System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forMac/chromedriver_mac_arm64/chromedriver");
         }
+        if(os.contains("linux")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_linux64/chromedriver");
+        }
 //        System.setProperty("webdriver.chrome.driver", "/Users/idonghyun/IdeaProjects/hana/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
