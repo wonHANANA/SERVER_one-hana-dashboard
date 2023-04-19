@@ -20,8 +20,14 @@ public class KeywordDto {
     private Boolean isPos;
     @NotNull(message = "퍼센트는 필수 입력 항목입니다.")
     private Double percentage;
-    @NotNull(message = "esg 여부는 필수 입력 항목입니다.")
     private Boolean isEsgKeyword;
+
+    public KeywordDto(Keyword keyword) {
+        this.name = keyword.getName();
+        this.isPos = keyword.getIsPos();
+        this.percentage = keyword.getPercentage();
+        this.isEsgKeyword = keyword.getIsEsgKeyword();
+    }
 
     public Keyword toEntity() {
         return Keyword.builder()

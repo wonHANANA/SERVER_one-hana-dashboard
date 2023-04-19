@@ -23,10 +23,11 @@ public class KeywordService {
     }
 
     @Transactional(readOnly = true)
-    public KeywordResponse findEsgKeyword() {
-        List<String> esg = keywordRepository.findNameByIsEsg();
-        List<String> trend = keywordRepository.findNameByIsNotEsg();
+    public List<KeywordDto> findEsgKeyword() {
+        List<Keyword> keywords = keywordRepository.findAll();
 
-        return new KeywordResponse(esg, trend);
+        return keywords.stream()
+                .map(KeywordDto::new)
+                .collect(Collectors.toList());
     }
 }
