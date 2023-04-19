@@ -19,6 +19,7 @@ public class Keyword {
     private Boolean isPos;
     private Double percentage;
     private Boolean isEsgKeyword;
+    @Setter private Integer newsCnt;
 
     @PrePersist
     public void prePersist() {

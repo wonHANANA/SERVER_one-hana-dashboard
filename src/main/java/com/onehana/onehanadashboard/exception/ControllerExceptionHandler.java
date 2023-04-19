@@ -1,5 +1,8 @@
-package com.onehana.onehanadashboard.config;
+package com.onehana.onehanadashboard.exception;
 
+import com.onehana.onehanadashboard.config.BaseException;
+import com.onehana.onehanadashboard.config.BaseResponse;
+import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;

@@ -32,4 +32,11 @@ public class KeywordController {
 
         return new BaseResponse<>(res);
     }
+
+    @Operation(summary = "키워드에 해당하는 뉴스기사 수 크롤링", description = "키워드 테이블에 있는 키워드 전체의 네이버 뉴스기사 수를 구한다")
+    @PostMapping("/news-cnt")
+    public BaseResponse<String> countNews() {
+        keywordService.countNewsWithKeyword();
+        return new BaseResponse<>("모든 키워드의 뉴스기사 수 검색이 완료되었습니다.");
+    }
 }

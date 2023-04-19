@@ -21,12 +21,14 @@ public class KeywordDto {
     @NotNull(message = "퍼센트는 필수 입력 항목입니다.")
     private Double percentage;
     private Boolean isEsgKeyword;
+    private Integer newsCnt;
 
     public KeywordDto(Keyword keyword) {
         this.name = keyword.getName();
         this.isPos = keyword.getIsPos();
         this.percentage = keyword.getPercentage();
         this.isEsgKeyword = keyword.getIsEsgKeyword();
+        this.newsCnt = keyword.getNewsCnt();
     }
 
     public Keyword toEntity() {
@@ -35,6 +37,7 @@ public class KeywordDto {
                 .isPos(isPos)
                 .percentage(percentage)
                 .isEsgKeyword(isEsgKeyword)
+                .newsCnt(newsCnt)
                 .build();
     }
 }
