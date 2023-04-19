@@ -34,7 +34,7 @@ public class GoogleSearchController {
     @GetMapping("/{keyword}")
     public BaseResponse<GoogleSearchResponse> getGoogleSearch(@PathVariable String keyword) {
         if (StringUtils.isBlank(keyword)) {
-            throw new BaseException(BaseResponseStatus.EMPTY_VALUE);
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
         GoogleSearchResponse res = googleSearchService.getGoogleSearch(keyword);
 

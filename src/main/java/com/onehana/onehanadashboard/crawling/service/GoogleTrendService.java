@@ -1,6 +1,5 @@
 package com.onehana.onehanadashboard.crawling.service;
 
-import com.onehana.onehanadashboard.crawling.entity.GoogleKeywordTrend;
 import com.onehana.onehanadashboard.crawling.entity.GoogleTrend;
 import com.onehana.onehanadashboard.crawling.repository.GoogleTrendRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,12 +12,12 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +28,7 @@ public class GoogleTrendService {
 
     private final GoogleTrendRepository googleTrendRepository;
 
+    @Transactional
     public List<GoogleTrend> saveGoogleTrend(List<GoogleTrend> googleTrend) {
         return googleTrendRepository.saveAll(googleTrend);
     }

@@ -6,12 +6,14 @@ import com.onehana.onehanadashboard.crawling.entity.GoogleSearch;
 import com.onehana.onehanadashboard.crawling.repository.GoogleSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GoogleSearchService {
 
     private final GoogleSearchRepository googleSearchRepository;
@@ -32,6 +34,7 @@ public class GoogleSearchService {
         return googleSearchRepository.saveAll(googleSearchList);
     }
 
+    @Transactional(readOnly = true)
     public GoogleSearchResponse getGoogleSearch(String keyword) {
         List<Long> actual = googleSearchRepository.findSearchedByKeywordAndIsActual(keyword);
         List<Long> predict = googleSearchRepository.findSearchedByKeywordAndIsPredict(keyword);

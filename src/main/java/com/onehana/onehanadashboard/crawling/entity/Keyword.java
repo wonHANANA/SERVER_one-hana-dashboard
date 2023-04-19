@@ -18,12 +18,20 @@ public class Keyword {
     private String name;
     private Boolean isPos;
     private Double percentage;
+    private Boolean isEsgKeyword;
+    @Setter private Integer newsCnt;
+
+    @PrePersist
+    public void prePersist() {
+        this.isEsgKeyword = this.isEsgKeyword == null ? Boolean.FALSE : this.isEsgKeyword;
+    }
 
     public KeywordDto toDto() {
         return KeywordDto.builder()
                 .name(name)
                 .isPos(isPos)
                 .percentage(percentage)
+                .isEsgKeyword(isEsgKeyword)
                 .build();
     }
 }

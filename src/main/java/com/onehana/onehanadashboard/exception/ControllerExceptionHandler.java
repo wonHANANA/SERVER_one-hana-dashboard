@@ -1,11 +1,20 @@
-package com.onehana.onehanadashboard.config;
+package com.onehana.onehanadashboard.exception;
 
+import com.onehana.onehanadashboard.config.BaseException;
+import com.onehana.onehanadashboard.config.BaseResponse;
+import com.onehana.onehanadashboard.config.BaseResponseStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.util.Arrays;
+import java.util.Objects;
+
+@Slf4j
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
@@ -17,6 +26,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)    // 유효성 검사 실패
     public BaseResponse<Object> MethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.info(Arrays.toString(e.getDetailMessageArguments()));
         BaseResponseStatus status = BaseResponseStatus.INVALID_JSON_REQUEST;
         return new BaseResponse<>(status);
     }
@@ -24,6 +34,12 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)    // 잘못된 자료형을 처리
     public BaseResponse<Object> MethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         BaseResponseStatus status = BaseResponseStatus.INVALID_VALUE_TYPE;
+        return new BaseResponse<>(status);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)    // DB 중복오류
+    public BaseResponse<Object> DataIntegrityViolationException(DataIntegrityViolationException e) {
+        BaseResponseStatus status = BaseResponseStatus.DATABASE_DUPLICATE_VALUE;
         return new BaseResponse<>(status);
     }
 
