@@ -13,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +30,7 @@ public class GoogleTrendService {
 
     private final GoogleTrendRepository googleTrendRepository;
 
+    @Transactional
     public List<GoogleTrend> saveGoogleTrend(List<GoogleTrend> googleTrend) {
         return googleTrendRepository.saveAll(googleTrend);
     }
