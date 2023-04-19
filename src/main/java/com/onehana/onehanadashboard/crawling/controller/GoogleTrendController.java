@@ -34,7 +34,7 @@ public class GoogleTrendController {
 //    public BaseResponse<List<GoogleKeywordTrend>> oneKeywordFastFiveGoogleTrend(@RequestParam String keyword) {
     public String oneKeywordFastFiveGoogleTrend(@RequestParam String keyword) {
         if (StringUtils.isBlank(keyword)) {
-            throw new BaseException(BaseResponseStatus.EMPTY_VALUE);
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
 
         List<GoogleKeywordTrend> googleKeywordTrendList = null;

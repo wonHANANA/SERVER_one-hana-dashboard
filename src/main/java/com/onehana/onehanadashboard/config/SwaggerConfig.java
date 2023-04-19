@@ -41,7 +41,17 @@ public class SwaggerConfig {
         String[] paths = {"/keyword/**"};
 
         return GroupedOpenApi.builder()
-                .group("키워드 정보")
+                .group("검색 키워드")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi S3Url() {
+        String[] paths = {"/s3/**"};
+
+        return GroupedOpenApi.builder()
+                .group("S3 url")
                 .pathsToMatch(paths)
                 .build();
     }

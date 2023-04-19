@@ -38,7 +38,7 @@ public class NewsController {
     @GetMapping("/keyword/{keyword}")
     public BaseResponse<List<News>> getNewsByKeyword(@PathVariable String keyword) {
         if (StringUtils.isBlank(keyword)) {
-            throw new BaseException(BaseResponseStatus.EMPTY_VALUE);
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
 
         List<News> news = newsService.getNewsByKeyword(keyword);
@@ -50,7 +50,7 @@ public class NewsController {
     public BaseResponse<List<News>> getNewsByKeywords(@PathVariable String keyword1,
                                                       @PathVariable String keyword2) {
         if (StringUtils.isBlank(keyword1) || StringUtils.isBlank(keyword2)) {
-            throw new BaseException(BaseResponseStatus.EMPTY_VALUE);
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
 
         List<News> news = newsService.getNewsByKeywords(keyword1, keyword2);
@@ -75,7 +75,7 @@ public class NewsController {
     public BaseResponse<List<String>> getSentenceWithKeyword(@PathVariable String keyword,
                                                              @PathVariable int length) {
         if (StringUtils.isBlank(keyword)) {
-            throw new BaseException(BaseResponseStatus.EMPTY_VALUE);
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
 
         List<String> news = newsService.getCustomSentenceWithKeyword(keyword, length);
@@ -86,7 +86,7 @@ public class NewsController {
     @GetMapping("/sentence/keyword/{keyword}")
     public BaseResponse<List<String>> getDotSentenceWithKeyword(@PathVariable String keyword) {
         if (StringUtils.isBlank(keyword)) {
-            throw new BaseException(BaseResponseStatus.EMPTY_VALUE);
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
 
         List<String> news = newsService.getSentenceWithKeyword(keyword);
