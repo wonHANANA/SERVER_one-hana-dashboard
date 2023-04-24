@@ -5,7 +5,7 @@ import com.onehana.onehanadashboard.config.BaseResponse;
 import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import com.onehana.onehanadashboard.crawling.entity.News;
 import com.onehana.onehanadashboard.crawling.service.NewsService;
-import com.onehana.onehanadashboard.util.StringUtil;
+import com.onehana.onehanadashboard.util.CustomStringUtil;
 import io.micrometer.common.util.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class NewsController {
                         @RequestParam String startDate,
                         @RequestParam String endDate) {
 
-        if (!StringUtil.isValidDateFormat(startDate) || !StringUtil.isValidDateFormat(endDate)) {
+        if (!CustomStringUtil.isValidDateFormat(startDate) || !CustomStringUtil.isValidDateFormat(endDate)) {
             throw new BaseException(BaseResponseStatus.INVALID_DATE_TYPE);
         }
 
@@ -62,7 +62,7 @@ public class NewsController {
     public BaseResponse<List<News>> getNewsByDate(@PathVariable String startDate,
                                                   @PathVariable String endDate) {
 
-        if (!StringUtil.isValidDateFormat(startDate) || !StringUtil.isValidDateFormat(endDate)) {
+        if (!CustomStringUtil.isValidDateFormat(startDate) || !CustomStringUtil.isValidDateFormat(endDate)) {
             throw new BaseException(BaseResponseStatus.INVALID_DATE_TYPE);
         }
 

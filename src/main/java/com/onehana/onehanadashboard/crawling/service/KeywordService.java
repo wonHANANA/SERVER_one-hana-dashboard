@@ -3,7 +3,6 @@ package com.onehana.onehanadashboard.crawling.service;
 import com.onehana.onehanadashboard.crawling.dto.KeywordDto;
 import com.onehana.onehanadashboard.crawling.entity.Keyword;
 import com.onehana.onehanadashboard.crawling.repository.KeywordRepository;
-import com.onehana.onehanadashboard.crawling.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

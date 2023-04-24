@@ -47,6 +47,16 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi sns() {
+        String[] paths = {"/sns/**"};
+
+        return GroupedOpenApi.builder()
+                .group("유튜브 댓글")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi S3Url() {
         String[] paths = {"/s3/**"};
 

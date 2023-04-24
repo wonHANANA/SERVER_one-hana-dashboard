@@ -18,6 +18,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.onehana.onehanadashboard.util.CustomStringUtil.extractKeywordContext;
+import static com.onehana.onehanadashboard.util.CustomStringUtil.getSentenceContainingKeyword;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -63,44 +66,6 @@ public class NewsService {
             sentenceList.addAll(contexts);
         }
         return sentenceList;
-    }
-
-    public static List<String> extractKeywordContext(String text, String keyword, int length) {
-        List<Integer> indices = new ArrayList<>();
-
-        int keywordLen = keyword.length();
-        keyword = keyword.toLowerCase();
-
-        int index = text.toLowerCase().indexOf(keyword);
-        while (index >= 0) {
-            indices.add(index);
-            index = text.toLowerCase().indexOf(keyword, index + keywordLen);
-        }
-
-        List<String> result = new ArrayList<>();
-        for (int i : indices) {
-            int start = Math.max(0, i - length);
-            int end = Math.min(text.length(), i + keywordLen + length);
-            String context = text.substring(start, end);
-            context = context.replaceAll("\n", "");
-            result.add(context);
-        }
-        return result;
-    }
-
-    public static List<String> getSentenceContainingKeyword(String text, String keyword) {
-        keyword = keyword.toLowerCase();
-
-        List<String> result = new ArrayList<>();
-        String[] sentences = text.split("[.]"); // . 단위로 문장 분리
-
-        for (String sentence : sentences) {
-            if (sentence.toLowerCase().contains(keyword)) {
-                sentence = sentence.replaceAll("\n", "");
-                result.add(sentence);
-            }
-        }
-        return result;
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
