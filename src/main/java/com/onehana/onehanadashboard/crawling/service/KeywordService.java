@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +40,18 @@ public class KeywordService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void countNewsWithKeyword() {
-        System.setProperty("webdriver.chrome.driver", "/Users/idonghyun/IdeaProjects/hana/chromedriver");
+        String os = System.getProperty("os.name").toLowerCase();
+        String currentDir = new File("").getAbsolutePath();
+        System.out.println("OS is: " + os);
+        System.out.println("current DIR: " + currentDir);
+
+        if(os.contains("mac")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forMac/chromedriver_mac_arm64/chromedriver");
+        }
+        if(os.contains("linux")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_linux64/chromedriver");
+        }
+//        System.setProperty("webdriver.chrome.driver", "/Users/idonghyun/IdeaProjects/hana/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
