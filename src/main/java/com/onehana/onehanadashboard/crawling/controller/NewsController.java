@@ -3,8 +3,11 @@ package com.onehana.onehanadashboard.crawling.controller;
 import com.onehana.onehanadashboard.config.BaseException;
 import com.onehana.onehanadashboard.config.BaseResponse;
 import com.onehana.onehanadashboard.config.BaseResponseStatus;
+import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDto;
 import com.onehana.onehanadashboard.crawling.entity.News;
+import com.onehana.onehanadashboard.crawling.service.NewsCrawlingService;
 import com.onehana.onehanadashboard.crawling.service.NewsService;
+import com.onehana.onehanadashboard.crawling.service.RelatedKeywordService;
 import com.onehana.onehanadashboard.util.CustomStringUtil;
 import io.micrometer.common.util.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,10 +22,12 @@ import java.util.List;
 public class NewsController {
 
     private final NewsService newsService;
+    private final NewsCrawlingService newsCrawlingService;
+    private final RelatedKeywordService relatedKeywordService;
 
     @Operation(summary = "네이버 크롤링", description = "날짜 형식: yyyyMMdd (20230101)")
     @PostMapping("/naver")
-    public String start(@RequestParam String keyword,
+    public String startCrawling(@RequestParam String keyword,
                         @RequestParam String startDate,
                         @RequestParam String endDate) {
 
@@ -30,8 +35,23 @@ public class NewsController {
             throw new BaseException(BaseResponseStatus.INVALID_DATE_TYPE);
         }
 
-        newsService.process(keyword, startDate, endDate);
-        return "크롤링 시작";
+        newsCrawlingService.naver(keyword, startDate, endDate);
+        return "크롤링 완료";
+    }
+
+    @Operation(summary = "심플 네이버 크롤링", description = "입력 키워드에 대한 파생 키워드들의 최신 뉴스기사를 입력한 숫자만큼 가져온다.")
+    @PostMapping("/simple-naver")
+    public String startSimpleCrawling(@RequestParam String keyword,
+                                      @RequestParam int quantity) {
+        if (StringUtils.isBlank(keyword)) {
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
+        }
+
+        RelatedKeywordDto relatedKeywordDto = relatedKeywordService.getRelatedKeywords(keyword);
+        List<String> relatedKeywords = relatedKeywordDto.getChildKeyword();
+
+        newsCrawlingService.simpleNaverCrawling(relatedKeywords, quantity);
+        return "크롤링 완료";
     }
 
     @Operation(summary = "뉴스기사 본문 키워드 1개로 조회", description = "뉴스기사 본문에 있는 키워드 1개로 조회")

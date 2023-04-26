@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,6 @@ public class KeywordService {
     public KeywordDto addKeyword(KeywordDto keywordDto) {
         return keywordRepository.save(keywordDto.toEntity()).toDto();
     }
-
 
 
     @Transactional(readOnly = true)
@@ -55,7 +53,6 @@ public class KeywordService {
         if(os.contains("linux")){
             System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_linux64/chromedriver");
         }
-//        System.setProperty("webdriver.chrome.driver", "/Users/idonghyun/IdeaProjects/hana/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
