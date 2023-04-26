@@ -3,6 +3,9 @@ package com.onehana.onehanadashboard.crawling.service;
 import com.onehana.onehanadashboard.config.BaseException;
 import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import com.onehana.onehanadashboard.crawling.dto.KeywordDto;
+import com.onehana.onehanadashboard.crawling.dto.request.KeywordExistRequest;
+import com.onehana.onehanadashboard.crawling.dto.response.KeywordExistResponse;
+import com.onehana.onehanadashboard.crawling.dto.response.KeywordResponse;
 import com.onehana.onehanadashboard.crawling.entity.Keyword;
 import com.onehana.onehanadashboard.crawling.repository.KeywordRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +34,6 @@ public class KeywordService {
         return keywordRepository.save(keywordDto.toEntity()).toDto();
     }
 
-
     @Transactional(readOnly = true)
     public List<KeywordDto> findEsgKeyword() {
         List<Keyword> keywords = keywordRepository.findAll();
@@ -38,6 +41,28 @@ public class KeywordService {
         return keywords.stream()
                 .map(KeywordDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public KeywordExistResponse isExistKeyword(KeywordExistRequest keywordExistRequest) {
+        List<String> exist = new ArrayList<>();
+        List<String> notExist = new ArrayList<>();
+
+        for (String keyword : keywordExistRequest.getKeywordList()) {
+            boolean isExist = keywordRepository.findByName(keyword).isPresent();
+            if (isExist) {
+                exist.add(keyword);
+            } else {
+                notExist.add(keyword);
+            }
+        }
+
+        KeywordExistResponse res = KeywordExistResponse.builder()
+                .exist(exist)
+                .notExist(notExist)
+                .build();
+
+        return res;
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
