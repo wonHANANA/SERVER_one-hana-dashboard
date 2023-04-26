@@ -46,6 +46,8 @@ public enum BaseResponseStatus {
     DATABASE_DUPLICATE_VALUE(false, "500-01-02", "DB에 중복된 값이 이미 존재합니다."),
     DATABASE_NOT_FOUND(false, "500-01-03", "DB에서 해당하는 값을 찾을 수 없습니다."),
 
+    NO_SUCH_SESSION_EXCEPTION(false, "500-01-04", "원하는 크롤링 숫자를 넘었습니다."),
+
     UNKNOWN_SERVER_ERROR(false, "500-00-44", "아직 처리 되지 않은 서버 오류입니다.");
 
     private final boolean isSuccess;

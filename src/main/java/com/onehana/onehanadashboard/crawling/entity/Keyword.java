@@ -4,6 +4,9 @@ import com.onehana.onehanadashboard.crawling.dto.KeywordDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -20,6 +23,9 @@ public class Keyword {
     private Double percentage;
     private Boolean isEsgKeyword;
     @Setter private Integer newsCnt;
+
+    @OneToMany(mappedBy = "keyword", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RelatedKeyword> relatedKeywords = new ArrayList<>();
 
     @PrePersist
     public void prePersist() {

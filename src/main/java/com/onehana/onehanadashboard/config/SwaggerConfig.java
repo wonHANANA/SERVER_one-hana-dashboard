@@ -57,6 +57,16 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi relatedKeyword() {
+        String[] paths = {"/related-keyword/**"};
+
+        return GroupedOpenApi.builder()
+                .group("파생 키워드")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi S3Url() {
         String[] paths = {"/s3/**"};
 

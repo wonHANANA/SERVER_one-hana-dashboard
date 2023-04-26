@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.*;
 
@@ -42,7 +43,17 @@ public class SnsService {
     }
 
     public void YoutubeCrawling(String youtuber, String category) throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "/Users/idonghyun/IdeaProjects/hana/chromedriver");
+        String os = System.getProperty("os.name").toLowerCase();
+        String currentDir = new File("").getAbsolutePath();
+        System.out.println("OS is: " + os);
+        System.out.println("current DIR: " + currentDir);
+
+        if(os.contains("mac")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forMac/chromedriver_mac_arm64/chromedriver");
+        }
+        if(os.contains("linux")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_linux64/chromedriver");
+        }
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");

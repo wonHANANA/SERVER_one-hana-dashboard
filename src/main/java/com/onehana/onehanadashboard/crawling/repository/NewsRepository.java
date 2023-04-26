@@ -17,6 +17,10 @@ public interface NewsRepository extends JpaRepository<News, Long> {
                                             @Param("keyword2") String keyword2);
 
     List<News> findAllByDateBetween(LocalDateTime start, LocalDateTime end);
+
+
+    @Query(value = "select m from News m where replace(m.searchKeyword, ' ', '') like replace (:search_keyword, ' ', '')")
+    List<News> findAllBySearchKeyword(@Param("search_keyword") String search_keyword);
 }
 
 

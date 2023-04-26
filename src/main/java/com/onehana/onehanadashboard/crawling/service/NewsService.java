@@ -1,8 +1,11 @@
 package com.onehana.onehanadashboard.crawling.service;
 
+import com.onehana.onehanadashboard.config.BaseException;
+import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import com.onehana.onehanadashboard.crawling.entity.News;
 import com.onehana.onehanadashboard.crawling.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -23,6 +26,7 @@ import static com.onehana.onehanadashboard.util.CustomStringUtil.extractKeywordC
 import static com.onehana.onehanadashboard.util.CustomStringUtil.getSentenceContainingKeyword;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class NewsService {
@@ -36,6 +40,10 @@ public class NewsService {
 
     public List<News> getNewsByKeywords(String keyword1, String keyword2) {
         return newsRepository.findByTextContainsIgnoreCase(keyword1, keyword2);
+    }
+
+    public List<News> getNewsBySearchKeyword(String search_keyword) {
+        return newsRepository.findAllBySearchKeyword(search_keyword);
     }
 
     public List<News> getNewsByDate(String start, String end) {
@@ -82,7 +90,6 @@ public class NewsService {
         if(os.contains("linux")){
             System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_linux64/chromedriver");
         }
-//        System.setProperty("webdriver.chrome.driver", "/Users/idonghyun/IdeaProjects/hana/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
@@ -96,6 +103,8 @@ public class NewsService {
             e.printStackTrace();
         } catch (ParseException e) {
             throw new RuntimeException(e);
+        } catch (NoSuchSessionException e) {
+            throw new BaseException(BaseResponseStatus.NO_SUCH_SESSION_EXCEPTION);
         }
 
         driver.close();
@@ -103,7 +112,7 @@ public class NewsService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public void naver(String keyword, String startDate, String endDate) throws InterruptedException, ParseException {
+    public void naver(String keyword, String startDate, String endDate) throws InterruptedException, ParseException, NoSuchSessionException {
         String title;
         String date;
         String text;

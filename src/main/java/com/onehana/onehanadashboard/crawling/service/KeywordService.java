@@ -1,5 +1,7 @@
 package com.onehana.onehanadashboard.crawling.service;
 
+import com.onehana.onehanadashboard.config.BaseException;
+import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import com.onehana.onehanadashboard.crawling.dto.KeywordDto;
 import com.onehana.onehanadashboard.crawling.entity.Keyword;
 import com.onehana.onehanadashboard.crawling.repository.KeywordRepository;
@@ -28,6 +30,8 @@ public class KeywordService {
     public KeywordDto addKeyword(KeywordDto keywordDto) {
         return keywordRepository.save(keywordDto.toEntity()).toDto();
     }
+
+
 
     @Transactional(readOnly = true)
     public List<KeywordDto> findEsgKeyword() {
@@ -79,7 +83,9 @@ public class KeywordService {
             int newsCnt = Integer.parseInt(driver.findElement(By.xpath("//*[@id=\"contentarea_left\"]/div[2]/p/strong[2]"))
                     .getText().replace(",", ""));
 
-            Keyword keyword = keywordRepository.findByName(name);
+            Keyword keyword = keywordRepository.findByName(name)
+                    .orElseThrow(() -> new BaseException(BaseResponseStatus.DATABASE_NOT_FOUND));
+
             keyword.setNewsCnt(newsCnt);
             keywordRepository.save(keyword);
         }

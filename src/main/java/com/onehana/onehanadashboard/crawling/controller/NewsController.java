@@ -34,7 +34,7 @@ public class NewsController {
         return "크롤링 시작";
     }
 
-    @Operation(summary = "뉴스기사 키워드 1개로 조회", description = "뉴스기사 키워드 1개로 조회")
+    @Operation(summary = "뉴스기사 본문 키워드 1개로 조회", description = "뉴스기사 본문에 있는 키워드 1개로 조회")
     @GetMapping("/keyword/{keyword}")
     public BaseResponse<List<News>> getNewsByKeyword(@PathVariable String keyword) {
         if (StringUtils.isBlank(keyword)) {
@@ -45,7 +45,7 @@ public class NewsController {
         return new BaseResponse<>(news);
     }
 
-    @Operation(summary = "뉴스기사 키워드 2개로 조회", description = "뉴스기사 키워드 2개로 조회")
+    @Operation(summary = "뉴스기사 본문 키워드 2개로 조회", description = "뉴스기사 본문에 있는 키워드 2개로 조회")
     @GetMapping("/keyword/{keyword1}/{keyword2}")
     public BaseResponse<List<News>> getNewsByKeywords(@PathVariable String keyword1,
                                                       @PathVariable String keyword2) {
@@ -54,6 +54,17 @@ public class NewsController {
         }
 
         List<News> news = newsService.getNewsByKeywords(keyword1, keyword2);
+        return new BaseResponse<>(news);
+    }
+
+    @Operation(summary = "뉴스기사 검색 키워드로 조회", description = "검색 키워드에 해당하는 뉴스기사 전체 조회")
+    @GetMapping("/search-keyword/{search-keyword}")
+    public BaseResponse<List<News>> getNewsBySearchKeyword(@PathVariable("search-keyword") String searchKeyword) {
+        if (StringUtils.isBlank(searchKeyword)) {
+            throw new BaseException(BaseResponseStatus.EMPTY_STRING);
+        }
+
+        List<News> news = newsService.getNewsBySearchKeyword(searchKeyword);
         return new BaseResponse<>(news);
     }
 
