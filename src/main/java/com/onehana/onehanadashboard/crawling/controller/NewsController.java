@@ -3,6 +3,7 @@ package com.onehana.onehanadashboard.crawling.controller;
 import com.onehana.onehanadashboard.config.BaseException;
 import com.onehana.onehanadashboard.config.BaseResponse;
 import com.onehana.onehanadashboard.config.BaseResponseStatus;
+import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDetailDto;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDto;
 import com.onehana.onehanadashboard.crawling.entity.News;
 import com.onehana.onehanadashboard.crawling.service.NewsCrawlingService;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,7 +50,8 @@ public class NewsController {
         }
 
         RelatedKeywordDto relatedKeywordDto = relatedKeywordService.getRelatedKeywords(keyword);
-        List<String> relatedKeywords = relatedKeywordDto.getChildKeyword();
+        List<String> relatedKeywords = relatedKeywordDto.getKeywordDetails().stream()
+                .map(RelatedKeywordDetailDto::getChildKeyword).collect(Collectors.toList());
 
         newsCrawlingService.simpleNaverCrawling(relatedKeywords, quantity);
         return "크롤링 완료";

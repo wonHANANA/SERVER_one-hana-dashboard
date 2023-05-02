@@ -6,14 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RelatedKeywordDto {
-    @NotBlank
-    private String parentKeyword;
-    private List<RelatedKeywordDetailDto> keywordDetails;
+public class RelatedKeywordDetailDto {
+    private Integer duplicateCnt;
+    private Double sumKeywordWorth;
+    private String childKeyword;
 }

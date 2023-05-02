@@ -19,6 +19,8 @@ public class RelatedKeyword {
     private Boolean isPos;
     private Double percentage;
     private Boolean isEsgKeyword;
+    private Integer duplicateCnt;
+    private Double sumKeywordWorth;
     @Setter private Integer newsCnt;
 
     @ManyToOne(fetch = FetchType.LAZY)
