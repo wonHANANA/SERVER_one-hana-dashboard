@@ -43,7 +43,7 @@ public class KeywordController {
     }
 
     @Operation(summary = "키워드 DB 존재 유무 확인", description = "키워드 리스트를 받아 해당 키워드의 현재 DB 존재 여부를 출력한다.")
-    @GetMapping("/is-exist")
+    @PostMapping("/is-exist")
     public BaseResponse<KeywordExistResponse> getExistKeyword(@RequestBody KeywordExistRequest keywordExistRequest) {
         KeywordExistResponse res = keywordService.isExistKeyword(keywordExistRequest);
         return new BaseResponse<>(res);
