@@ -16,8 +16,8 @@ public class RelatedKeyword {
 
     @Column(nullable = false)
     private String name;
-    private Boolean isPos;
-    private Double percentage;
+    @Setter private Boolean isPos;
+    @Setter private Double percentage;
     private Boolean isEsgKeyword;
     private Integer duplicateCnt;
     private Double sumKeywordWorth;

@@ -4,12 +4,16 @@ import com.onehana.onehanadashboard.config.BaseException;
 import com.onehana.onehanadashboard.config.BaseResponse;
 import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDto;
+import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordModifyDto;
+import com.onehana.onehanadashboard.crawling.dto.response.RelatedKeywordResponse;
 import com.onehana.onehanadashboard.crawling.service.RelatedKeywordService;
 import io.micrometer.common.util.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,11 +32,19 @@ public class RelatedKeywordController {
 
     @Operation(summary = "파생 키워드 조회", description = "부모 키워드를 입력하여 해당하는 파생 키워드를 조회한다.")
     @GetMapping("/child")
-    public BaseResponse<RelatedKeywordDto> getRelatedKeywords(@RequestParam String keyword) {
+    public BaseResponse<List<RelatedKeywordResponse>> getRelatedKeywords(@RequestParam String keyword) {
         if (StringUtils.isBlank(keyword)) {
             throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
-        RelatedKeywordDto res = relatedKeywordService.getRelatedKeywords(keyword);
+        List<RelatedKeywordResponse> res = relatedKeywordService.getRelatedKeywords(keyword);
+
+        return new BaseResponse<>(res);
+    }
+
+    @Operation(summary = "파생 키워드 긍정률 수정", description = "파생 키워드의 isPos와 percent를 수정한다.")
+    @PutMapping
+    public BaseResponse<RelatedKeywordModifyDto> modifyRelatedKeywords(@RequestBody @Valid RelatedKeywordModifyDto request) {
+        RelatedKeywordModifyDto res = relatedKeywordService.modifyRelatedKeywords(request);
 
         return new BaseResponse<>(res);
     }

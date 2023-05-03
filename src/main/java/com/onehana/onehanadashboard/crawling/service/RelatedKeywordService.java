@@ -4,6 +4,9 @@ import com.onehana.onehanadashboard.config.BaseException;
 import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDetailDto;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDto;
+import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordModifyDetailDto;
+import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordModifyDto;
+import com.onehana.onehanadashboard.crawling.dto.response.RelatedKeywordResponse;
 import com.onehana.onehanadashboard.crawling.entity.Keyword;
 import com.onehana.onehanadashboard.crawling.entity.RelatedKeyword;
 import com.onehana.onehanadashboard.crawling.repository.KeywordRepository;
@@ -45,28 +48,43 @@ public class RelatedKeywordService {
         return relatedKeywordDto;
     }
 
-    public RelatedKeywordDto getRelatedKeywords(String keyword) {
+    @Transactional(readOnly = true)
+    public List<RelatedKeywordResponse> getRelatedKeywords(String keyword) {
         Keyword findKeyword = keywordRepository.findByName(keyword)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.DATABASE_NOT_FOUND));
 
         List<RelatedKeyword> relatedKeywords = relatedKeywordRepository.findAllByKeywordIdOrderBy(findKeyword);
 
-        List<RelatedKeywordDetailDto> relatedKeywordDetailDtos = new ArrayList<>();
+        List<RelatedKeywordResponse> responseList = new ArrayList<>();
         for (RelatedKeyword relatedKeyword : relatedKeywords) {
-            RelatedKeywordDetailDto relatedKeywordDetailDto = RelatedKeywordDetailDto.builder()
+            RelatedKeywordResponse res = RelatedKeywordResponse.builder()
                     .childKeyword(relatedKeyword.getName())
-                    .sumKeywordWorth(relatedKeyword.getSumKeywordWorth())
+                    .isPos(relatedKeyword.getIsPos())
+                    .percentage(relatedKeyword.getPercentage())
+                    .isEsgKeyword(relatedKeyword.getIsEsgKeyword())
                     .duplicateCnt(relatedKeyword.getDuplicateCnt())
+                    .sumKeywordWorth(relatedKeyword.getSumKeywordWorth())
+                    .newsCnt(relatedKeyword.getNewsCnt())
                     .build();
 
-            relatedKeywordDetailDtos.add(relatedKeywordDetailDto);
+            responseList.add(res);
         }
+        return responseList;
+    }
 
-        RelatedKeywordDto relatedKeywordDto = RelatedKeywordDto.builder()
-                .parentKeyword(findKeyword.getName())
-                .keywordDetails(relatedKeywordDetailDtos)
-                .build();
+    public RelatedKeywordModifyDto modifyRelatedKeywords(RelatedKeywordModifyDto request) {
+        Keyword parentKeyword = keywordRepository.findByName(request.getParentKeyword())
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.DATABASE_NOT_FOUND));
 
-        return relatedKeywordDto;
+        List<RelatedKeywordModifyDetailDto> keywordDetails = request.getKeywordDetails();
+        for (RelatedKeywordModifyDetailDto keywordDetail : keywordDetails) {
+            RelatedKeyword childKeyword = relatedKeywordRepository.findByNameAndKeyword(keywordDetail.getChildKeyword(), parentKeyword)
+                    .orElseThrow(() -> new BaseException(BaseResponseStatus.DATABASE_NOT_FOUND));
+
+            childKeyword.setIsPos(keywordDetail.getIsPos());
+            childKeyword.setPercentage(keywordDetail.getPercentage());
+            relatedKeywordRepository.save(childKeyword);
+        }
+        return request;
     }
 }

@@ -23,6 +23,9 @@ public class NewsCrawlingService {
 
     private final NewsRepository newsRepository;
     private WebDriver driver;
+    private String title;
+    private String date;
+    private String text;
 
     public void seleniumSetting() {
         String os = System.getProperty("os.name").toLowerCase();
@@ -45,10 +48,6 @@ public class NewsCrawlingService {
 
     public void simpleNaverCrawling(List<String> keywords, int quantity) {
         seleniumSetting();
-
-        String title;
-        String date;
-        String text;
 
         String url = "https://naver.com";
         driver.get(url);
@@ -116,12 +115,8 @@ public class NewsCrawlingService {
         driver.quit();
     }
 
-    public void naver(String keyword, String startDate, String endDate) throws NoSuchSessionException {
+    public int naver(String keyword, String startDate, String endDate, int quantity) throws NoSuchSessionException {
         seleniumSetting();
-
-        String title;
-        String date;
-        String text;
 
         String url = "https://naver.com";
         driver.get(url);
@@ -141,8 +136,12 @@ public class NewsCrawlingService {
                 Integer.parseInt(endDate.substring(4, 6)),
                 Integer.parseInt(endDate.substring(6, 8))); // 종료 날짜
 
+        int news_cnt = quantity;
+
         // 시작 날짜부터 종료 날짜까지 하루씩 증가하면서 출력
         for (LocalDate searchDate = start; !searchDate.isAfter(end); searchDate = searchDate.plusDays(1)) {
+            if (news_cnt <= 0) break;
+
             driver.findElement(By.xpath("//*[@id=\"schoption14\"]")).click();
 
             driver.findElement(By.xpath("//*[@id=\"contentarea_left\"]/form/div/div/dl/dd[2]/span[5]/label/input[1]")).clear();
@@ -155,6 +154,10 @@ public class NewsCrawlingService {
 
             boolean hasPage = true; // 아래의 while문 조건
             for (int i = 1; i <= 11; i++) {
+                if (news_cnt <= 0) {
+                    hasPage = false;
+                    break;
+                }
                 if (i == 3) i++;    // 첫 페이지는 2번으로 간 뒤부터 1번 옆에 이전 탭이 생겨서 번호가 1만큼 늘어난다
 
                 try {
@@ -190,6 +193,12 @@ public class NewsCrawlingService {
                             .build();
 
                     allNews.add(news);
+
+                    news_cnt--;
+                    if (news_cnt == 0) {
+                        driver.navigate().back();
+                        break;
+                    }
                     driver.navigate().back();
                 }
                 newsRepository.saveAll(allNews);
@@ -198,6 +207,11 @@ public class NewsCrawlingService {
             // 첫 페이지 이후
             while (hasPage) {
                 for (int i = 3; i <= 13; i++) {
+                    if (news_cnt <= 0) {
+                        hasPage = false;
+                        break;
+                    }
+
                     try {
                         driver.findElement(By.xpath(String.format("//*[@id=\"contentarea_left\"]/table/tbody/tr/td[%d]/a", i))).click();
                     } catch (NoSuchElementException e) {
@@ -230,6 +244,12 @@ public class NewsCrawlingService {
                                 .build();
 
                         allNews.add(news);
+
+                        news_cnt--;
+                        if (news_cnt == 0) {
+                            driver.navigate().back();
+                            break;
+                        }
                         driver.navigate().back();
                     }
                     newsRepository.saveAll(allNews);
@@ -238,5 +258,6 @@ public class NewsCrawlingService {
         }
         driver.close();
         driver.quit();
+        return quantity - news_cnt;
     }
 }
