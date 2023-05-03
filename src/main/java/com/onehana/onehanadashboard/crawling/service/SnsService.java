@@ -71,9 +71,12 @@ public class SnsService {
         Thread.sleep(2000);
         driver.findElement(By.cssSelector("[aria-label = 검색]")).sendKeys(youtuber);
         Thread.sleep(2000);
+//        driver.findElement(By.cssSelector("[aria-label = 검색]")).sendKeys(Keys.ENTER);
+        driver.findElement(By.cssSelector("[aria-label = 검색]")).click();
         driver.findElement(By.cssSelector("[aria-label = 검색]")).sendKeys(Keys.ENTER);
+        System.out.println("Enter sent");
 
-        Thread.sleep(1000);
+        Thread.sleep(10000);
         driver.findElement(By.cssSelector("#main-link")).click();
         Thread.sleep(1000);
         driver.findElement(By.cssSelector("#tabsContent > tp-yt-paper-tab:nth-child(5) > div > div.tab-title.style-scope.ytd-c4-tabbed-header-renderer")).click();
