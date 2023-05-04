@@ -50,7 +50,7 @@ public class NewsController {
             throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
 
-        List<RelatedKeywordResponse> resList = relatedKeywordService.getRelatedKeywords(keyword);
+        List<RelatedKeywordResponse> resList = relatedKeywordService.getRelatedKeywordsByParents(keyword);
         List<String> relatedKeywords = resList.stream()
                 .map(RelatedKeywordResponse::getChildKeyword).collect(Collectors.toList());
 

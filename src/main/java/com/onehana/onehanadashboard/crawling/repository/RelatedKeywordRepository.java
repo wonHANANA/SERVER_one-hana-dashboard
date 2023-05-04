@@ -14,4 +14,6 @@ public interface RelatedKeywordRepository extends JpaRepository<RelatedKeyword, 
 
     @Query("SELECT e FROM RelatedKeyword e WHERE e.keyword = :keyword_id ORDER BY e.duplicateCnt DESC, e.sumKeywordWorth DESC")
     List<RelatedKeyword> findAllByKeywordIdOrderBy(@Param("keyword_id") Keyword keyword_id);
+
+    List<RelatedKeyword> findByName(String keywords);
 }

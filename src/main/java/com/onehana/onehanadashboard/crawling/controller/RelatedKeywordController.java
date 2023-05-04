@@ -5,6 +5,7 @@ import com.onehana.onehanadashboard.config.BaseResponse;
 import com.onehana.onehanadashboard.config.BaseResponseStatus;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDto;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordModifyDto;
+import com.onehana.onehanadashboard.crawling.dto.request.RelatedKeywordNameRequest;
 import com.onehana.onehanadashboard.crawling.dto.response.RelatedKeywordResponse;
 import com.onehana.onehanadashboard.crawling.service.RelatedKeywordService;
 import io.micrometer.common.util.StringUtils;
@@ -30,14 +31,21 @@ public class RelatedKeywordController {
         return new BaseResponse<>(res);
     }
 
-    @Operation(summary = "파생 키워드 조회", description = "부모 키워드를 입력하여 해당하는 파생 키워드를 조회한다.")
+    @Operation(summary = "부모 키워드 해당 파생 키워드 조회", description = "부모 키워드를 입력하여 해당하는 파생 키워드를 조회한다.")
     @GetMapping("/child")
-    public BaseResponse<List<RelatedKeywordResponse>> getRelatedKeywords(@RequestParam String keyword) {
+    public BaseResponse<List<RelatedKeywordResponse>> getRelatedKeywordsByParents(@RequestParam String keyword) {
         if (StringUtils.isBlank(keyword)) {
             throw new BaseException(BaseResponseStatus.EMPTY_STRING);
         }
-        List<RelatedKeywordResponse> res = relatedKeywordService.getRelatedKeywords(keyword);
+        List<RelatedKeywordResponse> res = relatedKeywordService.getRelatedKeywordsByParents(keyword);
 
+        return new BaseResponse<>(res);
+    }
+
+    @Operation(summary = "파생 키워드 이름 조회", description = "파생 키워드의 이름으로 조회한다.")
+    @PostMapping("/child/name")
+    public BaseResponse<List<RelatedKeywordResponse>> getRelatedKeywordsByName(@RequestBody @Valid RelatedKeywordNameRequest request) {
+        List<RelatedKeywordResponse> res = relatedKeywordService.getRelatedKeywordsByName(request);
         return new BaseResponse<>(res);
     }
 

@@ -6,6 +6,7 @@ import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDetailDto;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordDto;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordModifyDetailDto;
 import com.onehana.onehanadashboard.crawling.dto.RelatedKeywordModifyDto;
+import com.onehana.onehanadashboard.crawling.dto.request.RelatedKeywordNameRequest;
 import com.onehana.onehanadashboard.crawling.dto.response.RelatedKeywordResponse;
 import com.onehana.onehanadashboard.crawling.entity.Keyword;
 import com.onehana.onehanadashboard.crawling.entity.RelatedKeyword;
@@ -49,26 +50,27 @@ public class RelatedKeywordService {
     }
 
     @Transactional(readOnly = true)
-    public List<RelatedKeywordResponse> getRelatedKeywords(String keyword) {
+    public List<RelatedKeywordResponse> getRelatedKeywordsByParents(String keyword) {
         Keyword findKeyword = keywordRepository.findByName(keyword)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.DATABASE_NOT_FOUND));
 
         List<RelatedKeyword> relatedKeywords = relatedKeywordRepository.findAllByKeywordIdOrderBy(findKeyword);
 
-        List<RelatedKeywordResponse> responseList = new ArrayList<>();
-        for (RelatedKeyword relatedKeyword : relatedKeywords) {
-            RelatedKeywordResponse res = RelatedKeywordResponse.builder()
-                    .childKeyword(relatedKeyword.getName())
-                    .isPos(relatedKeyword.getIsPos())
-                    .percentage(relatedKeyword.getPercentage())
-                    .isEsgKeyword(relatedKeyword.getIsEsgKeyword())
-                    .duplicateCnt(relatedKeyword.getDuplicateCnt())
-                    .sumKeywordWorth(relatedKeyword.getSumKeywordWorth())
-                    .newsCnt(relatedKeyword.getNewsCnt())
-                    .build();
+        List<RelatedKeywordResponse> responseList = getRelatedKeywordResponses(relatedKeywords);
+        return responseList;
+    }
 
-            responseList.add(res);
+    @Transactional(readOnly = true)
+    public List<RelatedKeywordResponse> getRelatedKeywordsByName(RelatedKeywordNameRequest request) {
+        List<String> nameList = request.getKeywords();
+
+        List<RelatedKeyword> relatedKeywords = new ArrayList<>();
+        for (String name : nameList) {
+            List<RelatedKeyword> keywords = relatedKeywordRepository.findByName(name);
+            relatedKeywords.addAll(keywords);
         }
+
+        List<RelatedKeywordResponse> responseList = getRelatedKeywordResponses(relatedKeywords);
         return responseList;
     }
 
@@ -86,5 +88,24 @@ public class RelatedKeywordService {
             relatedKeywordRepository.save(childKeyword);
         }
         return request;
+    }
+
+
+    private static List<RelatedKeywordResponse> getRelatedKeywordResponses(List<RelatedKeyword> relatedKeywords) {
+        List<RelatedKeywordResponse> responseList = new ArrayList<>();
+        for (RelatedKeyword relatedKeyword : relatedKeywords) {
+            RelatedKeywordResponse res = RelatedKeywordResponse.builder()
+                    .childKeyword(relatedKeyword.getName())
+                    .isPos(relatedKeyword.getIsPos())
+                    .percentage(relatedKeyword.getPercentage())
+                    .isEsgKeyword(relatedKeyword.getIsEsgKeyword())
+                    .duplicateCnt(relatedKeyword.getDuplicateCnt())
+                    .sumKeywordWorth(relatedKeyword.getSumKeywordWorth())
+                    .newsCnt(relatedKeyword.getNewsCnt())
+                    .build();
+
+            responseList.add(res);
+        }
+        return responseList;
     }
 }
