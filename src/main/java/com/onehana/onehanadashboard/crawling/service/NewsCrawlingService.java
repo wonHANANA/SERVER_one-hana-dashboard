@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.net.SocketException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +39,9 @@ public class NewsCrawlingService {
         }
         if(os.contains("linux")){
             System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_linux64/chromedriver");
+        }
+        if(os.contains("windows")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forWindows/chromedriver_win32/chromedriver.exe");
         }
 
         ChromeOptions options = new ChromeOptions();

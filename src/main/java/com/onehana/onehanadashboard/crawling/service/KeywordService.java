@@ -78,6 +78,9 @@ public class KeywordService {
         if(os.contains("linux")){
             System.setProperty("webdriver.chrome.driver", currentDir + "/chromedriver_linux64/chromedriver");
         }
+        if(os.contains("windows")){
+            System.setProperty("webdriver.chrome.driver", currentDir + "/src/main/java/com/onehana/onehanadashboard/crawling/driver/forWindows/chromedriver_win32/chromedriver.exe");
+        }
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
