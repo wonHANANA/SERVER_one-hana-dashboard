@@ -28,6 +28,7 @@ public class NewsController {
     private final RelatedKeywordService relatedKeywordService;
 
     @Operation(summary = "네이버 크롤링", description = "날짜 형식: yyyyMMdd (20230101)")
+    @CrossOrigin(originPatterns = "http://localhost:3000")
     @PostMapping("/naver")
     public BaseResponse<String> startCrawling(@RequestParam String keyword,
                                 @RequestParam String startDate,
