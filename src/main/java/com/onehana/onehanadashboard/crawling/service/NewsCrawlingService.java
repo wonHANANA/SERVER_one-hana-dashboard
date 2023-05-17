@@ -122,11 +122,11 @@ public class NewsCrawlingService {
     public int naver(String keyword, String startDate, String endDate, int quantity) throws NoSuchSessionException {
         seleniumSetting();
 
-        String url = "https://naver.com";
+        String url = "https://finance.naver.com/news/";
         driver.get(url);
 
-        driver.findElement(By.xpath("//*[@id=\"NM_FAVORITE\"]/div[1]/ul[2]/li[3]/a")).click();
-        driver.findElement(By.xpath("//*[@id=\"menu\"]/ul/li[6]/a/span")).click();
+//        driver.findElement(By.xpath("//*[@id=\"NM_FAVORITE\"]/div[1]/ul[2]/li[3]/a")).click();
+//        driver.findElement(By.xpath("//*[@id=\"menu\"]/ul/li[6]/a/span")).click();
         driver.findElement(By.xpath("//*[@id=\"newsMainTop\"]/div/div[2]/form/div/input")).click();
         driver.findElement(By.xpath("//*[@id=\"newsMainTop\"]/div/div[2]/form/div/input")).sendKeys(keyword);
 
