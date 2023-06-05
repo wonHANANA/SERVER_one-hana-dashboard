@@ -36,6 +36,7 @@ public enum BaseResponseStatus {
     INVALID_DATE_TYPE(false, "400-02-12", "잘못된 날짜 입력 형식입니다. yyyyMMdd (20230101) 형식으로 입력해주세요."),
     INVALID_VALUE_TYPE(false, "400-02-13", "잘못된 자료형을 입력했습니다."),
     INVALID_JSON_REQUEST(false, "400-02-14", "JSON에 null값이나 잘못된 형식이 포함되어 있습니다."),
+    CRAWLING_REQUEST_OVERFLOW(false, "400-02-15", "크롤링 요청이 한도를 초과했습니다."),
 
     /**
      * 500번대 에러 : 서버 에러 등 서버 프로그래밍 잘못으로 인한 에러들

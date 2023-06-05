@@ -31,16 +31,16 @@ public class NewsController {
     @CrossOrigin(originPatterns = "http://localhost:3000")
     @PostMapping("/naver")
     public BaseResponse<String> startCrawling(@RequestParam String keyword,
-                                @RequestParam String startDate,
-                                @RequestParam String endDate,
-                                @RequestParam int quantity) {
+                                              @RequestParam String startDate,
+                                              @RequestParam String endDate,
+                                              @RequestParam int quantity) {
 
         if (!CustomStringUtil.isValidDateFormat(startDate) || !CustomStringUtil.isValidDateFormat(endDate)) {
             throw new BaseException(BaseResponseStatus.INVALID_DATE_TYPE);
         }
 
-        int news_cnt = newsCrawlingService.naver(keyword, startDate, endDate, quantity);
-        return new BaseResponse<>(news_cnt + "개 기사 크롤링 완료") ;
+        newsCrawlingService.naver(keyword, startDate, endDate, quantity);
+        return new BaseResponse<>("크롤링 요청 성공") ;
     }
 
     @Operation(summary = "심플 네이버 크롤링", description = "입력 키워드에 대한 파생 키워드들의 최신 뉴스기사를 입력한 숫자만큼 가져온다.")
@@ -56,7 +56,7 @@ public class NewsController {
                 .map(RelatedKeywordResponse::getChildKeyword).collect(Collectors.toList());
 
         newsCrawlingService.simpleNaverCrawling(relatedKeywords, quantity);
-        return new BaseResponse<>("크롤링 완료");
+        return new BaseResponse<>("크롤링 요청 성공");
     }
 
     @Operation(summary = "뉴스기사 본문 키워드 1개로 조회", description = "뉴스기사 본문에 있는 키워드 1개로 조회")
