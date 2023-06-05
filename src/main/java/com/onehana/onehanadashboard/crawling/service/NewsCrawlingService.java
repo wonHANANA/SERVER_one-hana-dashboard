@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.net.SocketException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -23,12 +23,11 @@ import java.util.List;
 public class NewsCrawlingService {
 
     private final NewsRepository newsRepository;
-    private WebDriver driver;
     private String title;
     private String date;
     private String text;
 
-    public void seleniumSetting() {
+    public WebDriver seleniumSetting() {
         String os = System.getProperty("os.name").toLowerCase();
         String currentDir = new File("").getAbsolutePath();
         System.out.println("OS is: " + os);
@@ -47,11 +46,12 @@ public class NewsCrawlingService {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("headless");
-        driver = new ChromeDriver(options);
+        return new ChromeDriver(options);
     }
 
+    @Async
     public void simpleNaverCrawling(List<String> keywords, int quantity) {
-        seleniumSetting();
+        WebDriver driver = seleniumSetting();
 
         String url = "https://naver.com";
         driver.get(url);
@@ -119,14 +119,13 @@ public class NewsCrawlingService {
         driver.quit();
     }
 
-    public int naver(String keyword, String startDate, String endDate, int quantity) throws NoSuchSessionException {
-        seleniumSetting();
+    @Async
+    public void naver(String keyword, String startDate, String endDate, int quantity) throws NoSuchSessionException {
+        WebDriver driver = seleniumSetting();
 
         String url = "https://finance.naver.com/news/";
         driver.get(url);
 
-//        driver.findElement(By.xpath("//*[@id=\"NM_FAVORITE\"]/div[1]/ul[2]/li[3]/a")).click();
-//        driver.findElement(By.xpath("//*[@id=\"menu\"]/ul/li[6]/a/span")).click();
         driver.findElement(By.xpath("//*[@id=\"newsMainTop\"]/div/div[2]/form/div/input")).click();
         driver.findElement(By.xpath("//*[@id=\"newsMainTop\"]/div/div[2]/form/div/input")).sendKeys(keyword);
 
@@ -262,6 +261,5 @@ public class NewsCrawlingService {
         }
         driver.close();
         driver.quit();
-        return quantity - news_cnt;
     }
 }
