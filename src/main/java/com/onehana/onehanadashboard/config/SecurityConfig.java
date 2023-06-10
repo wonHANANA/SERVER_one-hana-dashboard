@@ -30,8 +30,8 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Value("${one-hana.swagger-id}")
     private String swaggerId;
 
-    @Value("${one-hana.swagger-pd}")
-    private String swaggerPd;
+    @Value("${one-hana.swagger-pw}")
+    private String swaggerPw;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -59,7 +59,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
         userDetailsList.add(User.builder()
                 .username(swaggerId)
-                .password(passwordEncoder.encode(swaggerPd))
+                .password(passwordEncoder.encode(swaggerPw))
                 .roles("ADMIN")
                 .build());
 
